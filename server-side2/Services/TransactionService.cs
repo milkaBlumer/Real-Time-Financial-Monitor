@@ -6,12 +6,17 @@ namespace SQLink.Services
 {
     public sealed class TransactionService : ITransactionService
     {
-        private readonly ITransactionStore _store;
+        private readonly ITransactionStore _cache;
+        private readonly IPersistentStore _database;
         private readonly IRealtimePublisher _realtimePublisher;
 
-        public TransactionService(ITransactionStore store, IRealtimePublisher realtimePublisher)
+        public TransactionService(
+            ITransactionStore cache,
+            IPersistentStore database,
+            IRealtimePublisher realtimePublisher)
         {
-            _store = store;
+            _cache = cache;
+            _database = database;
             _realtimePublisher = realtimePublisher;
         }
 
@@ -26,7 +31,13 @@ namespace SQLink.Services
                 Timestamp = DateTime.UtcNow
             };
 
-            _store.Upsert(tx);
+            // 1. Save to persistent database first (Source of Truth)
+            await _database.SaveTransactionAsync(tx, cancellationToken);
+
+            // 2. Update cache for fast access
+            _cache.Upsert(tx);
+
+            // 3. Publish to connected clients in real-time
             await _realtimePublisher.PublishTransactionAsync(tx, cancellationToken);
 
             return new TransactionResponse
@@ -42,7 +53,7 @@ namespace SQLink.Services
 
         public IEnumerable<Transaction> GetAll()
         {
-            return _store.GetAll();
+            return _cache.GetAll();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SQLink.Abstractions;
+using SQLink.Data;
 using SQLink.Services;
 using StackExchange.Redis;
 
@@ -9,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
+
+// Register SQLite Database
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite("Data Source=transactions.db"));
 
 // Register Redis connection
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
@@ -18,20 +24,28 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 });
 
 // Register services
-builder.Services.AddSingleton<SQLink.Abstractions.ITransactionStore, SQLink.Services.TransactionStore>();
 builder.Services.AddSingleton<SQLink.ConnectedClientTracker>();
-builder.Services.AddSingleton<SQLink.Abstractions.IRealtimePublisher, SQLink.Services.SignalRRealtimePublisher>();
-builder.Services.AddSingleton<SQLink.Services.TransactionService>();
-
+builder.Services.AddSingleton<ITransactionStore, TransactionStore>();
+builder.Services.AddSingleton<IRealtimePublisher, SignalRRealtimePublisher>();
+builder.Services.AddSingleton<IRedisMessageBroker, RedisMessageBroker>();
+builder.Services.AddScoped<IPersistentStore, TransactionDbStore>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
-builder.Services.AddScoped<ITransactionStore, TransactionStore>();
-builder.Services.AddScoped<IRealtimePublisher, SignalRRealtimePublisher>();
+
+// Register Redis Pub/Sub subscription service
+builder.Services.AddHostedService<RedisSubscriptionService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Ensure database is created
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.EnsureCreated();
+}
 
 if (app.Environment.IsDevelopment())
 {
