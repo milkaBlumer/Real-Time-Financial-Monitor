@@ -1,0 +1,26 @@
+# Node
+**/node_modules/
+**/dist/
+**/.vite/
+
+# .NET
+**/bin/
+**/obj/
+
+# Test and coverage output
+**/coverage/
+**/TestResults/
+**/*.coverage
+**/*.trx
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE and OS
+.vscode/
+.DS_Store
+Thumbs.db

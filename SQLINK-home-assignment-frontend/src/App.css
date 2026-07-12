@@ -1,0 +1,273 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: min(1100px, 100% - 32px);
+  margin: 24px auto 36px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: linear-gradient(120deg, var(--card-1), var(--card-2));
+}
+
+.topbar p {
+  margin-top: 8px;
+  color: var(--text-soft);
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-main);
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.nav-links a.active {
+  background: var(--brand);
+  color: #1f190d;
+  border-color: transparent;
+}
+
+.page-card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.subtitle {
+  color: var(--text-soft);
+  margin-top: 8px;
+}
+
+.simulator-form {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.simulator-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+input,
+select {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  background: var(--surface-2);
+  color: var(--text-main);
+}
+
+.primary-btn,
+.secondary-btn {
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.primary-btn {
+  margin-top: 24px;
+  background: var(--brand);
+  color: #211a0f;
+  padding: 11px 14px;
+}
+
+.secondary-btn {
+  background: var(--surface-2);
+  color: var(--text-main);
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+}
+
+.primary-btn:hover,
+.secondary-btn:hover {
+  transform: translateY(-1px);
+}
+
+.preview-box {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  background: #101a20;
+}
+
+.preview-box h3 {
+  margin: 0 0 8px;
+}
+
+.preview-box pre {
+  margin: 0;
+  overflow: auto;
+  font-size: 13px;
+}
+
+.feedback {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.success-text {
+  color: var(--ok);
+}
+
+.error-text {
+  color: var(--error);
+}
+
+.monitor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.connection-state {
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid var(--line);
+}
+
+.connection-state[data-state="open"] {
+  color: #052014;
+  background: #8bf2c4;
+}
+
+.connection-state[data-state="connecting"] {
+  color: #422402;
+  background: #ffd07f;
+}
+
+.connection-state[data-state="closed"],
+.connection-state[data-state="error"] {
+  color: #3a0a0a;
+  background: #ff9999;
+}
+
+.monitor-controls {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.status-filter-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.status-filter-control select {
+  min-width: 140px;
+}
+
+.checkbox-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.table-shell {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: auto;
+  max-height: 56vh;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 820px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: #0f1b24;
+  z-index: 2;
+}
+
+.mono-cell {
+  font-family: var(--mono-font);
+  font-size: 13px;
+}
+
+.status-pill {
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.status-pill.success {
+  color: #052014;
+  background: #95f4c9;
+}
+
+.status-pill.failed {
+  color: #450909;
+  background: #ff9b9b;
+}
+
+.status-pill.pending {
+  color: #3b2b08;
+  background: #ffd98a;
+}
+
+.list-count {
+  margin-top: 12px;
+  color: var(--text-soft);
+}
+
+@media (max-width: 850px) {
+  .app-shell {
+    width: calc(100% - 18px);
+    margin: 10px auto 20px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .simulator-form {
+    grid-template-columns: 1fr;
+  }
+}

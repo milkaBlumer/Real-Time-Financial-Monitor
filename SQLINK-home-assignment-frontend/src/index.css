@@ -1,0 +1,59 @@
+:root {
+  --bg-main: #081119;
+  --surface: #0d1a24;
+  --surface-2: #132534;
+  --card-1: #142736;
+  --card-2: #0a161f;
+  --line: #294056;
+  --text-main: #e5edf3;
+  --text-soft: #9db3c3;
+  --brand: #ffc857;
+  --ok: #95f4c9;
+  --error: #ff9b9b;
+  --shadow: rgba(0, 0, 0, 0.25) 0 12px 24px -14px;
+
+  --sans-font: "Trebuchet MS", "Avenir Next", "Segoe UI", sans-serif;
+  --heading-font: "Gill Sans", "Avenir Next Condensed", "Segoe UI", sans-serif;
+  --mono-font: "Consolas", "Cascadia Mono", monospace;
+
+  font: 16px/1.45 var(--sans-font);
+  letter-spacing: 0.1px;
+  color: var(--text-main);
+  background: radial-gradient(
+    circle at 20% 10%,
+    #16364a 0%,
+    var(--bg-main) 54%
+  );
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-family: var(--heading-font);
+  color: var(--text-main);
+}
+
+h1 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.45rem;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}

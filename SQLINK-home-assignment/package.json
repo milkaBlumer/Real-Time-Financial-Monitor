@@ -1,0 +1,15 @@
+{
+  "name": "sqlink-home-assignment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "dotnet test ./server-side2/server-side2.sln --collect:\"XPlat Code Coverage\" /p:Threshold=80 /p:ThresholdType=line /p:ThresholdStat=total"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@microsoft/signalr": "^10.0.0"
+  }
+}
