@@ -46,16 +46,5 @@ namespace SQLink.Services
             
             return transactions.OrderByDescending(t => t.Timestamp);
         }
-
-        // public Transaction? Get(string id)
-        // {
-        //     var key = $"{TransactionKeyPrefix}{id}";
-        //     var json = _db.StringGet(key);
-            
-        //     if (!json.HasValue)
-        //         return null;
-            
-        //     return JsonSerializer.Deserialize<Transaction>(json.ToString());
-        // }
     }
 }

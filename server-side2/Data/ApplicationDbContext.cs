@@ -25,10 +25,6 @@ namespace SQLink.Data
                     .HasMaxLength(36)
                     .ValueGeneratedOnAdd();
 
-                entity.Property(e => e.Account)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
                 entity.Property(e => e.Amount)
                     .HasPrecision(18, 2);
 
@@ -45,7 +41,6 @@ namespace SQLink.Data
 
                 // Create index for faster queries
                 entity.HasIndex(e => e.Timestamp).IsDescending();
-                entity.HasIndex(e => e.Account);
             });
         }
     }

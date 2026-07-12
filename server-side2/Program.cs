@@ -24,10 +24,10 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 });
 
 // Register services
-builder.Services.AddSingleton<SQLink.ConnectedClientTracker>();
 builder.Services.AddSingleton<ITransactionStore, TransactionStore>();
-builder.Services.AddSingleton<IRealtimePublisher, SignalRRealtimePublisher>();
 builder.Services.AddSingleton<IRedisMessageBroker, RedisMessageBroker>();
+builder.Services.AddSingleton<IRealtimePublisher, RedisRealtimePublisher>();
+builder.Services.AddSingleton<ISignalRPublisher, SignalRPublisher>();
 builder.Services.AddScoped<IPersistentStore, TransactionDbStore>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 
@@ -40,11 +40,11 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Ensure database is created
+// Apply pending EF Core migrations
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.EnsureCreated();
+    db.Database.Migrate();
 }
 
 if (app.Environment.IsDevelopment())

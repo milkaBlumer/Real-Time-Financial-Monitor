@@ -6,6 +6,5 @@ namespace SQLink.Abstractions
     {
         void Upsert(Transaction tx);
         IEnumerable<Transaction> GetAll();
-        //Transaction? Get(string id);
     }
 }

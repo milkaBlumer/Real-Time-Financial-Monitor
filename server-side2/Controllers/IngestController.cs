@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SQLink.Abstractions;
-using SQLink.Contracts;
+using SQLink.Models;
 using SQLink.Services;
 
 namespace SQLink.Controllers
@@ -11,20 +11,45 @@ namespace SQLink.Controllers
     {
         private readonly ITransactionService _transactionService;
         private readonly ITransactionStore _transactionStore;
+        private readonly ILogger<IngestController> _logger;
 
-        public IngestController(ITransactionService transactionService, ITransactionStore transactionStore)
+        public IngestController(
+            ITransactionService transactionService,
+            ITransactionStore transactionStore,
+            ILogger<IngestController> logger)
         {
             _transactionService = transactionService;
             _transactionStore = transactionStore;
+            _logger = logger;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] TransactionRequest request)
+        public async Task<IActionResult> Post([FromBody] Transaction request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var acceptedTransaction = await _transactionService.IngestAsync(request);
-            return Accepted(acceptedTransaction);
+            try
+            {
+                var acceptedTransaction = await _transactionService.IngestAsync(request);
+                return Accepted(acceptedTransaction);
+            }
+            catch (TransactionConflictException ex)
+            {
+                return Conflict(new
+                {
+                    message = ex.Message,
+                    id = ex.Id
+                });
+            }
+            catch (RealtimePublishException ex)
+            {
+                _logger.LogWarning(ex, "Realtime publish failed for transaction {TransactionId}", ex.Id);
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new
+                {
+                    message = "Transaction persisted, but realtime delivery is temporarily unavailable.",
+                    id = ex.Id
+                });
+            }
         }
 
         [HttpGet]

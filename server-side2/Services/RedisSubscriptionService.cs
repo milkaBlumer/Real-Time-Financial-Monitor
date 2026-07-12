@@ -1,6 +1,6 @@
 using System.Text.Json;
-using Microsoft.AspNetCore.SignalR;
 using StackExchange.Redis;
+using SQLink.Abstractions;
 using SQLink.Models;
 
 namespace SQLink.Services
@@ -8,27 +8,26 @@ namespace SQLink.Services
     public class RedisSubscriptionService : BackgroundService
     {
         private readonly IConnectionMultiplexer _redis;
-        private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly ISignalRPublisher _signalRPublisher;
         private readonly ILogger<RedisSubscriptionService> _logger;
         private const string TransactionsChannel = "transactions_channel";
 
         public RedisSubscriptionService(
             IConnectionMultiplexer redis,
-            IServiceScopeFactory serviceScopeFactory,
+            ISignalRPublisher signalRPublisher,
             ILogger<RedisSubscriptionService> logger)
         {
             _redis = redis;
-            _serviceScopeFactory = serviceScopeFactory;
+            _signalRPublisher = signalRPublisher;
             _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var subscriber = _redis.GetSubscriber();
-            
+
             _logger.LogInformation("Starting Redis subscription to {Channel}", TransactionsChannel);
 
-            // Subscribe to transactions channel
             await subscriber.SubscribeAsync(RedisChannel.Literal(TransactionsChannel), async (channel, message) =>
             {
                 try
@@ -36,8 +35,7 @@ namespace SQLink.Services
                     if (!message.HasValue)
                         return;
 
-                    var txJson = message.ToString();
-                    var transaction = JsonSerializer.Deserialize<Transaction>(txJson);
+                    var transaction = JsonSerializer.Deserialize<Transaction>(message.ToString());
 
                     if (transaction == null)
                     {
@@ -47,15 +45,7 @@ namespace SQLink.Services
 
                     _logger.LogInformation("Received transaction {TransactionId} from Redis channel", transaction.Id);
 
-                    // Create a scope to get the SignalR hub context
-                    using (var scope = _serviceScopeFactory.CreateScope())
-                    {
-                        var hubContext = scope.ServiceProvider
-                            .GetRequiredService<Microsoft.AspNetCore.SignalR.IHubContext<TransactionHub>>();
-
-                        // Broadcast to all connected clients on this Pod
-                        await hubContext.Clients.All.SendAsync("transaction", transaction, stoppingToken);
-                    }
+                    await _signalRPublisher.BroadcastTransactionAsync(transaction, stoppingToken);
                 }
                 catch (Exception ex)
                 {
@@ -63,7 +53,6 @@ namespace SQLink.Services
                 }
             });
 
-            // Keep the service running until cancellation is requested
             await Task.Delay(Timeout.Infinite, stoppingToken);
         }
 

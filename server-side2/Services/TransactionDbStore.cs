@@ -19,26 +19,5 @@ namespace SQLink.Services
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync(cancellationToken);
         }
-
-        public async Task<Transaction?> GetTransactionAsync(string id, CancellationToken cancellationToken = default)
-        {
-            return await _context.Transactions
-                .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
-        }
-
-        public async Task<IEnumerable<Transaction>> GetAllTransactionsAsync(CancellationToken cancellationToken = default)
-        {
-            return await _context.Transactions
-                .OrderByDescending(t => t.Timestamp)
-                .ToListAsync(cancellationToken);
-        }
-
-        public async Task<IEnumerable<Transaction>> GetRecentTransactionsAsync(int count, CancellationToken cancellationToken = default)
-        {
-            return await _context.Transactions
-                .OrderByDescending(t => t.Timestamp)
-                .Take(count)
-                .ToListAsync(cancellationToken);
-        }
     }
 }
