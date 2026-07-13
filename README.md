@@ -145,16 +145,6 @@ docker run \
 
 ---
 
-## ✅ Verify
-
-Open:
-
-```text
-http://localhost:8080/health
-```
-
----
-
 # 🛠️ Technology Stack
 
 ### ⚙️ Backend
