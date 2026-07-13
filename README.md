@@ -1,23 +1,23 @@
-# Real-Time Financial Monitor
+#  Real-Time Financial Monitor
 
-## Overview
+## 📖 Overview
 
 **Real-Time Financial Monitor** is a full-stack application for monitoring financial transactions in real time.
 
 The system includes:
 
-- **ASP.NET Core 8 Web API** backend
-- **React + TypeScript** frontend
-- **SignalR** for real-time communication
-- **Redis** for caching and message distribution
-- **SQLite** for persistent storage
-- **Docker** support for containerized deployment
+- ⚙️ **ASP.NET Core 8 Web API** backend
+- ⚛️ **React + TypeScript** frontend
+- 📡 **SignalR** for real-time communication
+- 🚀 **Redis** for caching and message distribution
+- 🗄️ **SQLite** for persistent storage
+- 🐳 **Docker** support for containerized deployment
 
 ---
 
-# Project Structure
+# 📁 Project Structure
 
-```
+```text
 Real-Time-Financial-Monitor
 │
 ├── SQLINK-home-assignment
@@ -31,7 +31,7 @@ Real-Time-Financial-Monitor
 
 ---
 
-# Prerequisites
+# 📋 Prerequisites
 
 Before running the project, make sure the following tools are installed:
 
@@ -43,7 +43,7 @@ Before running the project, make sure the following tools are installed:
 
 ---
 
-# Clone the Repository
+# 📥 Clone the Repository
 
 ```bash
 git clone https://github.com/milkaBlumer/Real-Time-Financial-Monitor.git
@@ -52,9 +52,9 @@ cd Real-Time-Financial-Monitor
 
 ---
 
-# Running the Project Locally
+# ▶️ Running the Project Locally
 
-## 1. Start Redis
+## 1️⃣ Start Redis
 
 ```bash
 docker run --name sqlink-redis -p 6379:6379 -d redis:7-alpine
@@ -62,7 +62,7 @@ docker run --name sqlink-redis -p 6379:6379 -d redis:7-alpine
 
 ---
 
-## 2. Run the Backend
+## 2️⃣ Run the Backend
 
 Open a terminal:
 
@@ -76,7 +76,7 @@ dotnet run --project server-side2/server-side2.csproj
 
 ---
 
-## 3. Run the Frontend
+## 3️⃣ Run the Frontend
 
 Open another terminal:
 
@@ -101,21 +101,21 @@ npm run dev
 
 ---
 
-# Default URLs
+# 🌐 Default URLs
 
 After the application starts:
 
 | Service | URL |
 |----------|-----|
-| Frontend | http://localhost:5173 |
-| Backend API | https://localhost:7276 |
-| Swagger | https://localhost:7276/swagger |
+| 🖥️ Frontend | http://localhost:5173 |
+| ⚙️ Backend API | https://localhost:7276 |
+| 📄 Swagger | https://localhost:7276/swagger |
 
 ---
 
-# Running with Docker
+# 🐳 Running with Docker
 
-## Build Backend Image
+## 🔨 Build Backend Image
 
 ```bash
 cd SQLINK-home-assignment/server-side2
@@ -125,7 +125,7 @@ docker build -t sqlink-backend:local .
 
 ---
 
-## Start Redis
+## 🚀 Start Redis
 
 ```bash
 docker run --name sqlink-redis -p 6379:6379 -d redis:7-alpine
@@ -133,7 +133,7 @@ docker run --name sqlink-redis -p 6379:6379 -d redis:7-alpine
 
 ---
 
-## Run Backend Container
+## ▶️ Run Backend Container
 
 ```bash
 docker run \
@@ -145,19 +145,19 @@ docker run \
 
 ---
 
-## Verify
+## ✅ Verify
 
 Open:
 
-```
+```text
 http://localhost:8080/health
 ```
 
 ---
 
-# Technology Stack
+# 🛠️ Technology Stack
 
-### Backend
+### ⚙️ Backend
 
 - ASP.NET Core 8
 - Entity Framework Core
@@ -165,13 +165,13 @@ http://localhost:8080/health
 - Redis
 - SignalR
 
-### Frontend
+### 🎨 Frontend
 
 - React
 - TypeScript
 - Vite
 
-### Infrastructure
+### ☁️ Infrastructure
 
 - Docker
 - Redis
@@ -180,38 +180,38 @@ http://localhost:8080/health
 
 ---
 
-# Features
+# ✨ Features
 
-- Real-time transaction ingestion
-- Live updates using SignalR
-- Persistent transaction storage
-- Redis caching
-- Health endpoint
-- Docker support
-- Thread-safe concurrent processing
-- REST API
-- Responsive React UI
-
----
-
-# Future Improvements
-
-- Kubernetes deployment
-- Horizontal scaling
-- Redis Pub/Sub backplane
-- Authentication & Authorization
-- CI/CD pipeline
-- Metrics & Monitoring
-- Cloud deployment (Azure / AWS)
+- 📥 Real-time transaction ingestion
+- 📡 Live updates using SignalR
+- 🗄️ Persistent transaction storage
+- 🚀 Redis caching
+- ❤️ Health endpoint
+- 🐳 Docker support
+- 🔒 Thread-safe concurrent processing
+- 🌐 REST API
+- 💻 Responsive React UI
 
 ---
 
+# 🚀 Future Improvements
+
+- ☸️ Kubernetes deployment
+- 📈 Horizontal scaling
+- 🔄 Redis Pub/Sub backplane
+- 🔐 Authentication & Authorization
+- ⚡ CI/CD pipeline
+- 📊 Metrics & Monitoring
+- ☁️ Cloud deployment (Azure / AWS)
+
 ---
 
-## Thank You
+# ❤️ Thank You
 
 Thank you for taking the time to review this project.
 
 I hope you enjoyed exploring the implementation as much as I enjoyed building it.
 
-Have a great day!
+⭐ **Thanks for checking out this project!**
+
+Have a wonderful day! 🚀
