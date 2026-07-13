@@ -15,7 +15,6 @@ export interface UseTransactionStreamResult {
   connectionState: ConnectionState;
   receivedCount: number;
   reconnect: () => void;
-  clear: () => void;
 }
 
 const MAX_TRANSACTIONS = 1000;
@@ -398,13 +397,10 @@ export function useTransactionStream(): UseTransactionStreamResult {
     [],
   );
 
-  const clear = useMemo(() => () => setTransactions([]), []);
-
   return {
     transactions,
     connectionState,
     receivedCount,
     reconnect,
-    clear,
   };
 }

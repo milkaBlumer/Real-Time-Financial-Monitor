@@ -1,11 +1,11 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
-import { AddTransactionPage } from "./AddTransactionPage";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { AddTransactionPage } from "../../pages/AddTransactionPage";
 
 const postTransactionMock = vi.fn();
 
-vi.mock("../api/transactions", () => ({
+vi.mock("../../api/transactions", () => ({
   postTransaction: (...args: unknown[]) => postTransactionMock(...args),
 }));
 
@@ -20,6 +20,10 @@ function createMockTransaction(status: "Pending" | "Completed" | "Failed") {
 }
 
 describe("AddTransactionPage", () => {
+  beforeEach(() => {
+    postTransactionMock.mockReset();
+  });
+
   it("submits a generated transaction and shows success feedback", async () => {
     const user = userEvent.setup();
     postTransactionMock.mockResolvedValueOnce({

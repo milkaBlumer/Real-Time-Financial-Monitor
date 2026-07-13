@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SQLink.Abstractions;
@@ -11,11 +10,13 @@ namespace server_side2.Tests.Integration;
 
 public sealed class TestWebApplicationFactory : WebApplicationFactory<Program>
 {
-    private readonly SqliteConnection _connection = new("Data Source=:memory:");
+    private readonly string _databasePath;
+    private readonly string _connectionString;
 
     public TestWebApplicationFactory()
     {
-        _connection.Open();
+        _databasePath = Path.Combine(Path.GetTempPath(), $"sqlink-tests-{Guid.NewGuid():N}.db");
+        _connectionString = $"Data Source={_databasePath};Cache=Shared";
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -53,7 +54,7 @@ public sealed class TestWebApplicationFactory : WebApplicationFactory<Program>
             }
 
             services.AddDbContext<TransactionDbContext>(options =>
-                options.UseSqlite(_connection));
+                options.UseSqlite(_connectionString));
 
             services.AddScoped<ITransactionRepository>(sp =>
                 sp.GetRequiredService<TransactionDbContext>());
@@ -85,7 +86,24 @@ public sealed class TestWebApplicationFactory : WebApplicationFactory<Program>
 
         if (disposing)
         {
-            _connection.Dispose();
+            TryDelete(_databasePath);
+            TryDelete($"{_databasePath}-shm");
+            TryDelete($"{_databasePath}-wal");
+        }
+    }
+
+    private static void TryDelete(string filePath)
+    {
+        try
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+        catch
+        {
+            // Ignore teardown cleanup failures in tests.
         }
     }
 

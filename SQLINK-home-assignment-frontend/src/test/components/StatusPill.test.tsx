@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { StatusPill } from "./StatusPill";
+import { StatusPill } from "../../components/StatusPill";
 
 describe("StatusPill", () => {
   it("renders success style for Completed", () => {

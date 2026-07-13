@@ -1,4 +1,4 @@
-# SQLINK Frontend Assignment
+# Frontend Side
 
 React + TypeScript frontend with two routes:
 

@@ -15,7 +15,7 @@ namespace server_side2.Migrations
                 name: "Transactions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", maxLength: 36, nullable: false),
+                    Id = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
                     Amount = table.Column<decimal>(type: "TEXT", precision: 18, scale: 2, nullable: false),
                     Currency = table.Column<string>(type: "TEXT", maxLength: 3, nullable: false),
                     Timestamp = table.Column<DateTime>(type: "TEXT", nullable: false),

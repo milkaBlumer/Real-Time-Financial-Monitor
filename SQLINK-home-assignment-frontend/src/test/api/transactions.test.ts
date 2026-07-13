@@ -3,8 +3,8 @@ import {
   buildMonitorSocketUrl,
   getTransactions,
   postTransaction,
-} from "./transactions";
-import type { Transaction } from "../types/transaction";
+} from "../../api/transactions";
+import type { Transaction } from "../../types/transaction";
 
 describe("transactions api", () => {
   afterEach(() => {
@@ -25,13 +25,11 @@ describe("transactions api", () => {
       status: "Pending",
     };
 
-    const fetchMock = vi
-      .spyOn(globalThis, "fetch")
-      .mockResolvedValue(
-        new Response(JSON.stringify({ accepted: true, id: "tx-1" }), {
-          status: 202,
-        }),
-      );
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ accepted: true, id: "tx-1" }), {
+        status: 202,
+      }),
+    );
 
     const result = await postTransaction(tx);
 

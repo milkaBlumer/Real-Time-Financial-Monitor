@@ -27,8 +27,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 builder.Services.AddSingleton<ITransactionStore, TransactionStore>();
 builder.Services.AddSingleton<IRedisMessageBroker, RedisMessageBroker>();
 builder.Services.AddSingleton<ISignalRPublisher, SignalRPublisher>();
-builder.Services.AddSingleton<IRealtimePublisher>(sp =>
-    (IRealtimePublisher)sp.GetRequiredService<ISignalRPublisher>());
+builder.Services.AddSingleton<IRealtimePublisher, RedisRealtimePublisher>();
 builder.Services.AddScoped<ITransactionRepository>(sp => sp.GetRequiredService<TransactionDbContext>());
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 

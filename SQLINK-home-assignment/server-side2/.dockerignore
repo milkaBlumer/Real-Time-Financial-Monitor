@@ -1,0 +1,31 @@
+# Git and editor
+.git
+.gitignore
+.vs
+.vscode
+
+# Build output
+**/bin
+**/obj
+
+# Test artifacts and reports
+**/TestResults
+**/coverage
+
+# Local environment and secrets
+**/.env
+**/.env.*
+**/appsettings.Development.json
+
+# Local databases
+**/*.db
+**/*.db-shm
+**/*.db-wal
+
+# OS junk
+**/.DS_Store
+**/Thumbs.db
+
+# Existing Docker artifacts
+**/Dockerfile*
+!.dockerignore

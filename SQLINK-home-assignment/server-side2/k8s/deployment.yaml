@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlink-backend
+  labels:
+    app: sqlink-backend
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: sqlink-backend
+  template:
+    metadata:
+      labels:
+        app: sqlink-backend
+    spec:
+      containers:
+        - name: sqlink-backend
+          image: your-registry/sqlink-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          envFrom:
+            - configMapRef:
+                name: sqlink-backend-config
+            - secretRef:
+                name: sqlink-backend-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

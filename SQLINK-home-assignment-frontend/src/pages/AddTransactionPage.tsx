@@ -10,7 +10,7 @@ interface AddTransactionPageProps {
 export function AddTransactionPage({
   createMockTransaction,
 }: AddTransactionPageProps) {
-  const [amount, setAmount] = useState(120);
+  const [amount, setAmount] = useState(120.0);
   const [currency, setCurrency] = useState("USD");
   const [selectedStatus, setSelectedStatus] =
     useState<TransactionStatus>("Pending");
@@ -23,6 +23,11 @@ export function AddTransactionPage({
     () => createMockTransaction(selectedStatus),
     [createMockTransaction, selectedStatus, previewSeed],
   );
+
+  const previewWithoutId = useMemo(() => {
+    const { id: _id, ...rest } = transactionPreview;
+    return rest;
+  }, [transactionPreview]);
 
   const submitTransaction = async (event: FormEvent) => {
     event.preventDefault();
@@ -40,10 +45,7 @@ export function AddTransactionPage({
 
     try {
       const response = await postTransaction(transaction);
-      setResultMessage(
-        response.message ??
-          `Transaction ${response.id ?? transaction.id} sent successfully.`,
-      );
+      setResultMessage(response.message ?? `Transaction sent successfully.`);
       setPreviewSeed((value) => value + 1);
     } catch (error) {
       const message =
@@ -109,7 +111,7 @@ export function AddTransactionPage({
 
       <div className="preview-box">
         <h3>Payload preview</h3>
-        <pre>{JSON.stringify(transactionPreview, null, 2)}</pre>
+        <pre>{JSON.stringify(previewWithoutId, null, 2)}</pre>
       </div>
 
       {resultMessage && (

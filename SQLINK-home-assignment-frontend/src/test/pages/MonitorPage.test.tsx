@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import { MonitorPage } from "./MonitorPage";
-import type { UseTransactionStreamResult } from "../hooks/useTransactionStream";
+import { MonitorPage } from "../../pages/MonitorPage";
+import type { UseTransactionStreamResult } from "../../hooks/useTransactionStream";
 
 function buildStream(
   overrides?: Partial<UseTransactionStreamResult>,
@@ -34,7 +34,6 @@ function buildStream(
     connectionState: "open",
     receivedCount: 3,
     reconnect: vi.fn(),
-    clear: vi.fn(),
     ...overrides,
   };
 }

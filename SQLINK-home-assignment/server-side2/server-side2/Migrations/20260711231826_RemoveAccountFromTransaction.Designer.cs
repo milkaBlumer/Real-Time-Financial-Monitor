@@ -24,7 +24,7 @@ namespace server_side2.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
+                        .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Amount")

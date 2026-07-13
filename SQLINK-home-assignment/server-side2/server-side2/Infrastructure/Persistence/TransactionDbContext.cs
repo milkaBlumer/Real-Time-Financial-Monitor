@@ -47,7 +47,7 @@ namespace SQLink.Data
                 entity.HasKey(e => e.Id);
                 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(36)
+                    .HasMaxLength(64)
                     .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Amount)
